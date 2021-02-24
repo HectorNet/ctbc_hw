@@ -10,6 +10,9 @@ from matplotlib import pyplot as plt
 
 from model import Model
 
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+torch.autograd.set_detect_anomaly(True)
+
 def _load_image(image_path):
     with open(image_path, 'rb') as f:
         img = Image.open(f).convert('L')
@@ -37,28 +40,35 @@ class Dataset(data.Dataset):
         ln_char_path = np.random.choice(glob(f'{self.data_dir}/{ln_char}/*.png'))
         ln_image = _load_image(ln_char_path)
         image = np.concatenate([ln_image, fn_image], axis=2)
-
-        # onehot_indices = np.array([data_utils.onehot_index(index) for index in [ln_index, *fn_indices]])
-        # onehot_indices = onehot_indices.reshape([data_utils.char_count, 1, 3])
-        # return image, torch.from_numpy(onehot_indices)
+        image = torch.from_numpy(image)
 
         indices = torch.reshape(torch.Tensor([ln_index, *fn_indices]), (1, 3)).to(torch.long)
 
-        return image, indices
+        return image.to(device), indices.to(device)
 
 if __name__ == '__main__':
     trainset = Dataset('data/sample', num_examples=1000)
     trainloader = data.DataLoader(trainset, batch_size=32, shuffle=True)
-    model = Model(data_utils.char_count)
-    print(f'total parameters: {sum(p.numel() for p in model.parameters())}')
 
-    loss = nn.NLLLoss()
-    m = nn.LogSoftmax(dim=1)
+    model = Model(data_utils.char_count).to(device)
 
-    for images, indices in trainloader:
-        prediction = model(images)
-        # print(images.shape, prediction.shape, indices.shape, indices)
-        # print(prediction.dtype, indices.dtype)
-        output = loss(prediction, indices)
-        output.backward()
-        print(output)
+    optimizer = torch.optim.Adam(model.parameters(), lr=0.0001)
+    criterion = nn.CrossEntropyLoss()
+
+    for epoch in range(200):
+        running_loss = 0
+        for i, (images, indices) in enumerate(trainloader):
+            optimizer.zero_grad()
+
+            prediction = model(images)
+
+            loss = criterion(prediction, indices)
+
+            loss.backward()
+            optimizer.step()
+
+            running_loss += loss.item()
+
+            if (i+1)%10 == 0:
+                print(f'Epoch{epoch+1}Step{i+1}: {running_loss/10}')
+                running_loss = 0

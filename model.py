@@ -15,7 +15,7 @@ class ResBlock(nn.Module):
         self.conv0 = nn.Conv2d(inplanes, planes, 3, padding=1, stride=(2 if downsample else 1))
         self.conv1 = nn.Conv2d(planes, planes, 3, padding=1)
         self.bn = nn.BatchNorm2d(planes)
-        self.relu = nn.ReLU(inplace=True)
+        self.relu = nn.ReLU(inplace=False)
         self.conv_shortcut = nn.Conv2d(inplanes, planes, 3, padding=1, stride=(2 if downsample else 1))
     
     def forward(self, x):
@@ -45,7 +45,7 @@ class Model(nn.Module):
         self.res4 = ResBlock(32*32, 32*64)
         
         self.conv = nn.Conv2d(32*64, char_count, 3, padding=1, stride=1)
-        self.relu = nn.ReLU(inplace=True)
+        self.relu = nn.ReLU(inplace=False)
         self.global_avgpool = nn.AdaptiveAvgPool2d([1, 3])
         self.softmax = nn.Softmax(dim=1)
 
