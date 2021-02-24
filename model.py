@@ -4,6 +4,8 @@ import numpy as np
 import torchvision.models as models
 from torchsummary import summary
 
+import data_utils
+
 # torch.set_grad_enabled(False)
 
 class ResBlock(nn.Module):
@@ -42,7 +44,8 @@ class Model(nn.Module):
         self.res3 = ResBlock(32*16, 32*32, downsample=True)
         self.res4 = ResBlock(32*32, 32*64)
         
-        self.conv_last = nn.Conv2d(32*64, char_count, 3, padding=1, stride=1)
+        self.conv = nn.Conv2d(32*64, char_count, 3, padding=1, stride=1)
+        self.relu = nn.ReLU(inplace=True)
         self.global_avgpool = nn.AdaptiveAvgPool2d([1, 3])
         self.softmax = nn.Softmax(dim=1)
 
@@ -53,13 +56,14 @@ class Model(nn.Module):
         y = self.res3(y)
         y = self.res4(y)
 
-        y = self.conv_last(y)
+        y = self.conv(y)
+        y = self.relu(y)
         y = self.global_avgpool(y)
         y = self.softmax(y)
         return y
 
 if __name__ == '__main__':
-    model = Model(char_count=10)
+    model = Model(char_count=data_utils.char_count)
     x = torch.from_numpy(np.random.normal(size=[1, 1, 50, 150]).astype(np.float32))
     y = model(x)
     output = torch.squeeze(torch.argmax(y, dim=1))

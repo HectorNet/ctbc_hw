@@ -6,10 +6,12 @@ from matplotlib import pyplot as plt
 # fn: first name
 
 # data_dir = "./data/Traditional_Chinese_data/"
-data_dir = "./data/mini_train/"
+data_dir = "./data/sample/"
+
 dict_char2index = {}
 dict_index2char = {}
-chars = os.listdir(data_dir)
+
+chars = list(filter(lambda char: os.path.isdir(f'{data_dir}/{char}'), os.listdir(data_dir)))
 char_count = len(chars)
 
 for i, char in enumerate(chars):
