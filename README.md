@@ -5,7 +5,7 @@
 
 整理過的資料集可下載於: https://drive.google.com/file/d/1Hu7iy8fr5rqaFq73ukzQBaBL-BJymGMC/view?usp=sharing
 
-此資料集包含4803個字元，利用這些字元做為手寫姓名的組合，其中姓氏字元僅取台灣的百大姓氏(https://taiwan.chtsai.org/2006/01/10/taiwan_baijiaxing/)。
+此資料集包含4803個字元，利用這些字元做為手寫姓名的組合，其中姓氏字元僅取台灣的百大姓氏https://taiwan.chtsai.org/2006/01/10/taiwan_baijiaxing/
 
 由於作答時間有限的關係，本project將做下列的限制：
 1. 僅限姓名長度為3的情況
