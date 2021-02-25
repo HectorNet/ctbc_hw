@@ -9,7 +9,7 @@
 2. 僅處理橫寫姓名(由左至右)
 
 example:
-![白佳奇](https://github.com/HectorNet/ctbc_hw/data/白佳奇.png)
+![白佳奇](https://github.com/HectorNet/ctbc_hw/blob/dev/data/%E7%99%BD%E4%BD%B3%E5%A5%87.png)
 
 
 ### Model
