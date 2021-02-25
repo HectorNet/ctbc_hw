@@ -2,6 +2,7 @@
 
 ### Data
 資料集出處：https://github.com/AI-FREE-Team/Traditional-Chinese-Handwriting-Dataset
+
 整理過的資料集可下載於: https://drive.google.com/file/d/1Hu7iy8fr5rqaFq73ukzQBaBL-BJymGMC/view?usp=sharing
 
 由於作答時間有限的關係，本project將做下列的限制：
