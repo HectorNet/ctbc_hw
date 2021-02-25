@@ -1,6 +1,6 @@
 # Handwriting recognition for Traditional Chinese name
 
-### Data
+## Data
 資料集出處：https://github.com/AI-FREE-Team/Traditional-Chinese-Handwriting-Dataset
 
 整理過的資料集可下載於: https://drive.google.com/file/d/1Hu7iy8fr5rqaFq73ukzQBaBL-BJymGMC/view?usp=sharing
@@ -16,7 +16,7 @@ example:
 ![白佳奇](https://github.com/HectorNet/ctbc_hw/blob/dev/data/%E7%99%BD%E4%BD%B3%E5%A5%87.png)
 
 
-### Model (利用PyTorch實作)
+## Model (利用PyTorch實作)
 Input shape: [-1, 1, 50, 150]
 
 Output shape: [-1, 4803, 1, 3]
@@ -81,12 +81,12 @@ Non-trainable params: 0
 ----------------------------------------------------------------
 ```
 
-### Training
+## Training
 *由於訓練時間有限，在此僅使用10個字元做為子資料集(data/sample-train與data/sample-test)，而上述ouput shape應修正為[-1, 10, 1, 3]。*
 
 `python train.py --num_train_examples 10000 --num_test_example 100 --batch_size 32 --epochs 200 --log_freq 100 --save_freq 1`
 
-### Test
+## Test
 在第三個epoch時，模型訓練在測試資料集(data/sample-test)的準確度已達到將近100%。
 
 `python inference.py`
