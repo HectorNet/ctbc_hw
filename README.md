@@ -89,4 +89,9 @@ Non-trainable params: 0
 ## Test
 在第三個epoch時，模型訓練在測試資料集(data/sample-test)的準確度已達到將近100%。
 
-`python inference.py`
+可下載已訓練之模型於https://drive.google.com/file/d/1__cblnYN4co94JmsAHREVOj1H9nCSJtK/view?usp=sharing
+
+```
+# only support GPU inference
+python inference.py
+```
