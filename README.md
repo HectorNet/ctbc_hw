@@ -78,5 +78,5 @@ Non-trainable params: 0
 ```
 
 ### Results
-*由於訓練時間有限的關係，僅使用十個字元的子資料集，如data/sample-train與data/sample-test。上述ouput shape應修正為[-1, 10, 1, 3]。
+*由於訓練時間有限的關係，僅使用十個字元的子資料集，如data/sample-train與data/sample-test。上述ouput shape應修正為[-1, 10, 1, 3]。*
 
