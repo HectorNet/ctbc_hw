@@ -20,8 +20,8 @@ example:
 此模型使用ResBlock做了五層的堆疊，其中包含了兩次stride=2的convolution做為downsampling及最後利用adaptive average pooling得到output。
 
 - Model Design
-  - 利用multi-output的regression模型，共用各字元的參數，其可有效的利用有限的資料集。
-  - 利用fully convolution model的設計減少fully connection layer造成過多的參數以及位置資訊的消減。
+  - 利用multi-output的regression模型，同時預測多字元，可讓模型同時學習各字元的localization及recognition。
+  - 利用fully convolutional network的設計減少fully connection layer造成過多的參數以及位置資訊的消減。
   - 使用ResBlock中的shortcut機制，降低訓練過程中的gradient vanishing。
   - 使用Batch Normalization加速模型的訓練。
 
@@ -82,7 +82,7 @@ Non-trainable params: 0
 ----------------------------------------------------------------
 ```
 
-- 後處理中，將模型的output經argmax(dim=1)後，可得到最大機率的三個字元。
+- 後處理中，將模型的output經argmax(dim=1)後，可得到最大機率的三個字元作為姓名預測。
 
 ## Training
 *由於訓練時間有限，在此僅使用10個字元做為子資料集[data/sample-train](https://github.com/HectorNet/ctbc_hw/tree/dev/data/sample-train)與[data/sample-test](https://github.com/HectorNet/ctbc_hw/tree/dev/data/sample-test)，而上述ouput shape應修正為[-1, 10, 1, 3]。*
