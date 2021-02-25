@@ -82,7 +82,7 @@ Non-trainable params: 0
 ```
 
 ## Training
-*由於訓練時間有限，在此僅使用10個字元做為子資料集(data/sample-train與data/sample-test)，而上述ouput shape應修正為[-1, 10, 1, 3]。*
+*由於訓練時間有限，在此僅使用10個字元做為子資料集([data/sample-train](https://github.com/HectorNet/ctbc_hw/tree/dev/data/sample-train)與[data/sample-test]https://github.com/HectorNet/ctbc_hw/tree/dev/data/sample-test)，而上述ouput shape應修正為[-1, 10, 1, 3]。*
 
 `python train.py --num_train_examples 10000 --num_test_example 100 --batch_size 32 --epochs 200 --log_freq 100 --save_freq 1`
 
