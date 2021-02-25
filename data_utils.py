@@ -1,12 +1,13 @@
 import os
 import numpy as np
+import torch
 from matplotlib import pyplot as plt
 
 # ln: last name
 # fn: first name
 
 # data_dir = "./data/Traditional_Chinese_data/"
-data_dir = "./data/sample/"
+data_dir = "./data/sample-train/"
 
 dict_char2index = {}
 dict_index2char = {}
@@ -26,6 +27,15 @@ def onehot_index(index):
 def onehot_char(char):
     dict_index = char2index[char]
     return onehot_index(index)
+
+def calc_acc(gt, pred):
+    gt = torch.squeeze(gt)
+    pred = torch.squeeze(pred)
+    num_chars = gt.numel()
+    char_acc = torch.sum(gt == pred)/num_chars
+    name_acc = torch.sum(torch.all(gt == pred, dim=-1))/gt.shape[0]
+
+    return char_acc, name_acc
 
 top100_lns = [
     '陳', '林', '黃', '張', '李', '王', '吳', '劉', '蔡', '楊',  

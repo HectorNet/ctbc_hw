@@ -35,26 +35,34 @@ class ResBlock(nn.Module):
 
 
 class Model(nn.Module):
-    def __init__(self, char_count=4803, in_channels=1, out_channels=1):
+    def __init__(self, char_count=4803, in_channels=1, out_channels=1, tiny=False):
         super(Model, self).__init__()
-        self.res0 = ResBlock(1, 32, downsample=True)
-        self.res1 = ResBlock(32, 32*4)
-        self.res2 = ResBlock(32*4, 32*16)
 
-        self.res3 = ResBlock(32*16, 32*32, downsample=True)
-        self.res4 = ResBlock(32*32, 32*64)
+        self.tiny = tiny
+        self.res0 = ResBlock(1, 32, downsample=True)
         
-        self.conv = nn.Conv2d(32*64, char_count, 3, padding=1, stride=1)
+        if self.tiny:
+            self.conv = nn.Conv2d(32, char_count, 3, padding=1, stride=1)
+        else:
+            self.res1 = ResBlock(32, 32*4)
+            self.res2 = ResBlock(32*4, 32*16)
+
+            self.res3 = ResBlock(32*16, 32*32, downsample=True)
+            self.res4 = ResBlock(32*32, 32*64)
+            self.conv = nn.Conv2d(32*64, char_count, 3, padding=1, stride=1)
+
         self.relu = nn.ReLU(inplace=False)
         self.global_avgpool = nn.AdaptiveAvgPool2d([1, 3])
         self.softmax = nn.Softmax(dim=1)
 
     def forward(self, x):
         y = self.res0(x)
-        y = self.res1(y)
-        y = self.res2(y)
-        y = self.res3(y)
-        y = self.res4(y)
+        
+        if not self.tiny:
+            y = self.res1(y)
+            y = self.res2(y)
+            y = self.res3(y)
+            y = self.res4(y)
 
         y = self.conv(y)
         y = self.relu(y)
@@ -71,4 +79,6 @@ if __name__ == '__main__':
 
     # print(model)
     print(f'total parameters: {sum(p.numel() for p in model.parameters())}')
-    summary(model, (1, 50, 150))
+
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    summary(model.to(device), (1, 50, 150))

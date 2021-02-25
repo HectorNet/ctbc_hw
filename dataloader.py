@@ -10,8 +10,6 @@ from matplotlib import pyplot as plt
 
 from model import Model
 
-device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-torch.autograd.set_detect_anomaly(True)
 
 def _load_image(image_path):
     with open(image_path, 'rb') as f:
@@ -21,9 +19,10 @@ def _load_image(image_path):
 
 
 class Dataset(data.Dataset):
-    def __init__(self, data_dir, num_examples=1_000_000):
+    def __init__(self, data_dir, device='cpu', num_examples=1_000_000):
         self.data_dir = data_dir
         self.num_examples = num_examples
+        self.device = device
 
     def __len__(self):
         return self.num_examples
@@ -44,31 +43,18 @@ class Dataset(data.Dataset):
 
         indices = torch.reshape(torch.Tensor([ln_index, *fn_indices]), (1, 3)).to(torch.long)
 
-        return image.to(device), indices.to(device)
+        return image.to(self.device), indices.to(self.device)
 
 if __name__ == '__main__':
-    trainset = Dataset('data/sample', num_examples=1000)
-    trainloader = data.DataLoader(trainset, batch_size=32, shuffle=True)
+    testset = Dataset('data/sample-test', num_examples=1000)
+    testloader = data.DataLoader(testset, batch_size=32, shuffle=False)
 
-    model = Model(data_utils.char_count).to(device)
+    for i, (images, indices) in enumerate(testloader):
+        print(images[0][0].shape, indices.shape)
 
-    optimizer = torch.optim.Adam(model.parameters(), lr=0.0001)
-    criterion = nn.CrossEntropyLoss()
+        plt.imshow(images[0][0]*255, cmap='gray')
+        plt.show()
 
-    for epoch in range(200):
-        running_loss = 0
-        for i, (images, indices) in enumerate(trainloader):
-            optimizer.zero_grad()
-
-            prediction = model(images)
-
-            loss = criterion(prediction, indices)
-
-            loss.backward()
-            optimizer.step()
-
-            running_loss += loss.item()
-
-            if (i+1)%10 == 0:
-                print(f'Epoch{epoch+1}Step{i+1}: {running_loss/10}')
-                running_loss = 0
+        name = ''.join([data_utils.dict_index2char[index] for index in torch.squeeze(indices[0]).tolist()])
+        plt.imsave(f'{name}.png', images[0][0]*255, cmap='gray')
+        break
