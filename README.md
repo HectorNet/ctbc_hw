@@ -10,7 +10,7 @@
 由於作答時間有限的關係，本project將做下列的限制：
 1. 僅限姓名長度為3的情況
 2. 僅處理橫寫姓名(由左至右)
-3. 模型輸入須為150x像素
+3. 模型輸入須為150x50像素
 
 example:
 ![白佳奇](https://github.com/HectorNet/ctbc_hw/blob/dev/data/%E7%99%BD%E4%BD%B3%E5%A5%87.png)
