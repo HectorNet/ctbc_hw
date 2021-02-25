@@ -85,5 +85,7 @@ Non-trainable params: 0
 
 `python train.py --num_train_examples 10000 --num_test_example 100 --batch_size 32 --epochs 200 --log_freq 100 --save_freq 1`
 
-### Results
-在第三個epoch時，模型訓練在測試資料集上以達到將近100%。
+### Test
+在第三個epoch時，模型訓練在測試資料集(data/sample-test)的準確度已達到將近100%。
+
+`python inference.py`
