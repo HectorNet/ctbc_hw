@@ -5,6 +5,8 @@
 
 整理過的資料集可下載於: https://drive.google.com/file/d/1Hu7iy8fr5rqaFq73ukzQBaBL-BJymGMC/view?usp=sharing
 
+此資料集包含4803個字元，利用這些字元做為手寫姓名的組合，其中姓氏字元僅取台灣的百大姓氏(https://taiwan.chtsai.org/2006/01/10/taiwan_baijiaxing/)。
+
 由於作答時間有限的關係，本project將做下列的限制：
 1. 僅限姓名長度為3的情況
 2. 僅處理橫寫姓名(由左至右)
@@ -13,14 +15,14 @@ example:
 ![白佳奇](https://github.com/HectorNet/ctbc_hw/blob/dev/data/%E7%99%BD%E4%BD%B3%E5%A5%87.png)
 
 
-### Model
+### Model (利用PyTorch實作)
 Input shape: [-1, 1, 50, 150]
 
-Output shape: [-1, character_count, 1, 3]
+Output shape: [-1, 4803, 1, 3]
 
-此模型使用Resnet block做了五層的堆疊，其中包含了兩次stride=2的convolution做downsample及最後的adaptive average pooling得到最後output。
+此模型使用Resnet block做了五層的堆疊，其中包含了兩次stride=2的convolution做為downsample及最後利用adaptive average pooling得到output。
 
-模型的output經argmax(dim=1)後可得到最大機率的三個字元。
+後處理中，將模型的output經argmax(dim=1)後，可得到最大機率的三個字元。
 
 Model summary
 ```
@@ -78,6 +80,10 @@ Non-trainable params: 0
 ----------------------------------------------------------------
 ```
 
-### Training and Results
-*由於訓練時間有限的關係，僅使用十個字元的子資料集，如data/sample-train與data/sample-test。上述ouput shape應修正為[-1, 10, 1, 3]。*
+### Training
+*由於訓練時間有限的關係，在此僅使用10個字元做為子資料集(data/sample-train與data/sample-test)，而上述ouput shape應修正為[-1, 10, 1, 3]。*
 
+`python train.py --num_train_examples 10000 --num_test_example 100 --batch_size 32 --epochs 200 --log_freq 100 --save_freq 1`
+
+### Results
+在第三個epoch時，模型訓練在測試資料集上以達到將近100%。
