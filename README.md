@@ -16,16 +16,19 @@ example:
 ![白佳奇](https://github.com/HectorNet/ctbc_hw/blob/dev/data/%E7%99%BD%E4%BD%B3%E5%A5%87.png)
 
 
-## Model (利用PyTorch實作)
-Input shape: [-1, 1, 50, 150]
-
-Output shape: [-1, 4803, 1, 3]
-
-此模型使用Resnet block做了五層的堆疊，其中包含了兩次stride=2的convolution做為downsample及最後利用adaptive average pooling得到output。
+## Model
+此模型使用ResBlock做了五層的堆疊，其中包含了兩次stride=2的convolution做為downsample及最後利用adaptive average pooling得到output。
 
 後處理中，將模型的output經argmax(dim=1)後，可得到最大機率的三個字元。
 
-Model summary
+- Model Design
+  - 利用multi-output的regression模型，共用各字元的參數，其可有效的利用有限的資料集。
+  - 利用fully convolution model的設計減少fully connection layer造成過多的參數以及位置資訊的消減。
+  - 使用ResBlock中的shortcut機制，降低訓練過程中的gradient vanishing。
+  - 使用Batch Normalization加速模型的訓練。
+
+
+- Model Summary
 ```
 ----------------------------------------------------------------
         Layer (type)               Output Shape         Param #
