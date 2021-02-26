@@ -2,6 +2,7 @@
 
 ##
 本Repo為CTBC的面試前作業
+
 Question：Handwriting recognition for Traditional Chinese name.
 1. Please provide the DNN network design and explain why this design can provide good recognition result.
 2. Please demonstrate the recognition result and provide same code for evaluating the deep learning skill.
