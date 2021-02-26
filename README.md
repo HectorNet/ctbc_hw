@@ -108,7 +108,7 @@ python inference.py
 ```
 
 ## Conclusion
-- 在時間有限的情況下，將問題的scope縮小，模型在sub dataset中可得到不錯的結果。對於完整的dataset，預期經過夠長的時間訓練及hyperparameter tuning預期也可達到不錯的結果。
+- 在時間有限的情況下，將問題的scope縮小，模型在sub dataset中可得到不錯的結果。對於完整的dataset，預期經過夠長的時間訓練及hyperparameter tuning也可達到不錯的結果。
 - 對於原始的問題，此模型仍有相當的限制，例如手寫簽名常為字元相連。對於此情況，細部的辨識變得更加重要，可嘗試加入coarse to fine或pyramid network的設計。
 
 
