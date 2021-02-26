@@ -21,7 +21,7 @@ Question：Handwriting recognition for Traditional Chinese name.
 此資料集包含4803個字元，利用這些字元做為手寫姓名的組合，其中姓氏字元僅取台灣的百大姓氏https://taiwan.chtsai.org/2006/01/10/taiwan_baijiaxing/
 
 example: 
-![白佳奇](https://github.com/HectorNet/ctbc_hw/blob/dev/data/%E7%99%BD%E4%BD%B3%E5%A5%87.png)
+![白佳奇](https://github.com/HectorNet/ctbc_hw/blob/main/data/%E7%99%BD%E4%BD%B3%E5%A5%87.png)
 
 
 ## Model
@@ -93,12 +93,12 @@ Non-trainable params: 0
 - 後處理中，將模型的output經argmax(dim=1)後，可得到最大機率的三個字元作為姓名預測。
 
 ## Training
-*由於訓練時間有限，在此僅使用10個字元做為展示([data/sample-train](https://github.com/HectorNet/ctbc_hw/tree/dev/data/sample-train)與[data/sample-test](https://github.com/HectorNet/ctbc_hw/tree/dev/data/sample-test))，而上述的ouput shape應修正為[-1, 10, 1, 3]。*
+*由於訓練時間有限，在此僅使用10個字元做為展示([data/sample-train](https://github.com/HectorNet/ctbc_hw/tree/main/data/sample-train)與[data/sample-test](https://github.com/HectorNet/ctbc_hw/tree/main/data/sample-test))，而上述的ouput shape應修正為[-1, 10, 1, 3]。*
 
 `python train.py --num_train_examples 10000 --num_test_example 100 --batch_size 32 --epochs 200 --log_freq 100 --save_freq 1`
 
 ## Test
-在第三個epoch時，模型在測試資料集[data/sample-test](https://github.com/HectorNet/ctbc_hw/tree/dev/data/sample-test)的準確度已達到近100%，可得知模型於此subset並無overfitting的情況。
+在第三個epoch時，模型在測試資料集[data/sample-test](https://github.com/HectorNet/ctbc_hw/tree/main/data/sample-test)的準確度已達到近100%，可得知模型於此subset並無overfitting的情況。
 
 已訓練之模型: https://drive.google.com/file/d/1__cblnYN4co94JmsAHREVOj1H9nCSJtK/view?usp=sharing
 
