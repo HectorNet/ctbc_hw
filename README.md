@@ -20,7 +20,7 @@ Question：Handwriting recognition for Traditional Chinese name.
 
 此資料集包含4803個字元，利用這些字元做為手寫姓名的組合，其中姓氏字元僅取台灣的百大姓氏https://taiwan.chtsai.org/2006/01/10/taiwan_baijiaxing/
 
-example:
+example: 
 ![白佳奇](https://github.com/HectorNet/ctbc_hw/blob/dev/data/%E7%99%BD%E4%BD%B3%E5%A5%87.png)
 
 
