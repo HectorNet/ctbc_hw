@@ -1,5 +1,11 @@
 # Handwriting recognition for Traditional Chinese name
 
+##
+本Repo為CTBC的面試前作業
+Question：Handwriting recognition for Traditional Chinese name.
+1. Please provide the DNN network design and explain why this design can provide good recognition result.
+2. Please demonstrate the recognition result and provide same code for evaluating the deep learning skill.
+
 ## Data
 資料集出處：https://github.com/AI-FREE-Team/Traditional-Chinese-Handwriting-Dataset
 
@@ -85,16 +91,24 @@ Non-trainable params: 0
 - 後處理中，將模型的output經argmax(dim=1)後，可得到最大機率的三個字元作為姓名預測。
 
 ## Training
-*由於訓練時間有限，在此僅使用10個字元做為子資料集[data/sample-train](https://github.com/HectorNet/ctbc_hw/tree/dev/data/sample-train)與[data/sample-test](https://github.com/HectorNet/ctbc_hw/tree/dev/data/sample-test)，而上述的ouput shape應修正為[-1, 10, 1, 3]。*
+*由於訓練時間有限，在此僅使用10個字元做為subset[data/sample-train](https://github.com/HectorNet/ctbc_hw/tree/dev/data/sample-train)與[data/sample-test](https://github.com/HectorNet/ctbc_hw/tree/dev/data/sample-test)，而上述的ouput shape應修正為[-1, 10, 1, 3]。*
 
 `python train.py --num_train_examples 10000 --num_test_example 100 --batch_size 32 --epochs 200 --log_freq 100 --save_freq 1`
 
 ## Test
-在第三個epoch時，模型在測試資料集[data/sample-test](https://github.com/HectorNet/ctbc_hw/tree/dev/data/sample-test)的準確度已達到將近100%。
+在第三個epoch時，模型在測試資料集[data/sample-test](https://github.com/HectorNet/ctbc_hw/tree/dev/data/sample-test)的準確度已達到近100%，可得知模型於此subset並無overfitting的情況。
 
-可下載已訓練之模型於https://drive.google.com/file/d/1__cblnYN4co94JmsAHREVOj1H9nCSJtK/view?usp=sharing
+已訓練之模型: https://drive.google.com/file/d/1__cblnYN4co94JmsAHREVOj1H9nCSJtK/view?usp=sharing
 
 ```
 # only support GPU inference
 python inference.py
 ```
+
+## Conclusion
+- 在時間有限的情況下，將問題的scope縮小，模型在sub dataset中可得到不錯的結果。對於完整的dataset，預期經過夠長的時間訓練及hyperparameter tuning預期也可達到不錯的結果。
+- 對於原始的問題，此模型仍有相當的限制，例如手寫簽名常為字元相連。對於此情況，細部的辨識變得更加重要，可嘗試加入coarse to fine或pyramid network的設計。
+
+
+
+
